@@ -10,16 +10,12 @@ keyboard = Controller()
 
 cap = cv2.VideoCapture(0)
 
+
 def press_space():
     keyboard.press(Key.space)
     keyboard.release(Key.space)
 
-def press_a():
-    keyboard.press('a')
-    keyboard.release('a')
 
-
-# cap = cv2.VideoCapture('jump.mp4')
 fps = cap.get(cv2.CAP_PROP_FPS)
 delay = int(1000 / fps)
 print(fps)
@@ -28,7 +24,6 @@ color = np.random.randint(0, 255, (200, 3))
 
 lines = None
 prevImg = None
-
 
 termcriteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03)
 
@@ -49,12 +44,10 @@ while cap.isOpened():
         break
     img_draw = frame.copy()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # 최초 프레임 경우
+
     if prevImg is None:
         prevImg = gray
-        # 추적선 그릴 이미지를 프레임 크기에 맞게 생성
         lines = np.zeros_like(frame)
-        # 추적 시작을 위한 코너 검출  ---①
         prevPt = cv2.goodFeaturesToTrack(prevImg, 200, 0.01, 10)
     else:
         prevPt = cv2.goodFeaturesToTrack(prevImg, 200, 0.01, 10)
@@ -79,10 +72,7 @@ while cap.isOpened():
             if cnt > 5:
                 print('jump')
                 cnt = 0
-                # press_a()
                 press_space()
-                # elif vec[1] < 0:
-                #     print('아래')
             for i, (p, n) in enumerate(zip(prevMv, nextMv)):
                 px, py = p.ravel()
                 nx, ny = n.ravel()
