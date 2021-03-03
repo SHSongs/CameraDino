@@ -77,6 +77,7 @@ while cap.isOpened():
             print('jump')
             cnt = 0
             press_a()
+            press_space()
             # elif vec[1] < 0:
             #     print('아래')
         for i, (p, n) in enumerate(zip(prevMv, nextMv)):
