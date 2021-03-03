@@ -2,8 +2,8 @@
 
 ## OpticalFlow로 Dino Game 하기
 
-![Demo](Demo.gif)
-
+<img src="Demo.png" height="400">  
+<img src="Demo.gif" height="400">  
 
 ## Dependencies
 python3 
