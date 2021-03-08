@@ -1,5 +1,6 @@
 # calcOpticalFlowPyrLK 추적 (track_opticalLK.py)
 
+import collections
 import cv2
 import numpy as np
 import time
@@ -8,8 +9,10 @@ import time
 
 keyboard = Controller()
 
-cap = cv2.VideoCapture(0)
+buffer = collections.deque(maxlen=140)
 
+#  cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture('jump.mp4')
 
 def press_space():
     keyboard.press(Key.space)
@@ -61,12 +64,17 @@ while cap.isOpened():
             nextMv = nextPt[status == 1]
             vec = prevMv - nextMv
 
+            buffer.append(vec[1])
+            Threshold = 0
+
+            if len(buffer) > 35:
+                Threshold = np.mean(buffer)
+
             vec = np.mean(vec, axis=0)
 
-            if abs(vec[1]) > 0.3:
-                if vec[1] > 0:
-                    print(vec[1])
-                    cnt += 1
+            if vec[1] > Threshold+1.1:
+                print(vec[1])
+                cnt += 1
             else:
                 cnt = np.clip(cnt - 1, 0, 5)
             if cnt > 5:
