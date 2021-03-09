@@ -11,8 +11,8 @@ keyboard = Controller()
 
 buffer = collections.deque(maxlen=140)
 
-#  cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture('jump.mp4')
+cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture('jump.mp4')
 
 def press_space():
     keyboard.press(Key.space)
@@ -35,7 +35,7 @@ cnt = 0
 while cap.isOpened():
     ret, frame = cap.read()
 
-    scale_percent = 50  # percent of original size
+    scale_percent = 30  # percent of original size
     width = int(frame.shape[1] * scale_percent / 100)
     height = int(frame.shape[0] * scale_percent / 100)
     dim = (width, height)
@@ -67,20 +67,21 @@ while cap.isOpened():
             buffer.append(vec[1])
             Threshold = 0
 
-            if len(buffer) > 35:
-                Threshold = np.mean(buffer)
+            if len(buffer) > 40:
+                Threshold = np.mean(np.array(buffer))
 
             vec = np.mean(vec, axis=0)
 
-            if vec[1] > Threshold+1.1:
-                print(vec[1])
+            if vec[1] > Threshold+0.75:
+                #print(vec[1])
                 cnt += 1
             else:
                 cnt = np.clip(cnt - 1, 0, 5)
-            if cnt > 5:
+            if cnt > 2:
                 print('jump')
                 cnt = 0
                 press_space()
+                '''
             for i, (p, n) in enumerate(zip(prevMv, nextMv)):
                 px, py = p.ravel()
                 nx, ny = n.ravel()
@@ -90,13 +91,13 @@ while cap.isOpened():
                 cv2.circle(img_draw, (nx, ny), 2, color[i].tolist(), -1)
 
             img_draw = cv2.add(img_draw, lines)
-
+'''
             prevImg = nextImg
             prevPt = nextMv.reshape(-1, 1, 2)
         except:
             pass
 
-    cv2.imshow('JumpCam', img_draw)
+    cv2.imshow('JumpCam', prevImg)
     key = cv2.waitKey(delay)
     if key == 27:  # Esc:
         break
@@ -106,3 +107,4 @@ while cap.isOpened():
         time.sleep(1)
 cv2.destroyAllWindows()
 cap.release()
+
