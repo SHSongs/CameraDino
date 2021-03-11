@@ -79,7 +79,7 @@ while cap.isOpened():
             else:
                 jumpcnt = np.clip(jumpcnt - 1, 0, 5)
             if jumpcnt > 2:
-                print('jump')
+                # print('jump')
                 jumpcnt = 0
                 press_space()
 
@@ -102,7 +102,7 @@ while cap.isOpened():
 
     if cnt % 20 == 0:
         prevPt = cv2.goodFeaturesToTrack(prevImg, 200, 0.01, 10)
-        cv2.imshow('JumpCam', prevImg)
+        cv2.imshow('', prevImg)
         cnt = 0
     key = cv2.waitKey(delay)
     if key == 27:  # Esc:
