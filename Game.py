@@ -11,8 +11,8 @@ keyboard = Controller()
 
 buffer = collections.deque(maxlen=140)
 
-# cap = cv2.VideoCapture(0)
-cap = cv2.VideoCapture('jump.mp4')
+cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture('jump.mp4')
 
 def press_space():
     keyboard.press(Key.space)
@@ -30,7 +30,7 @@ prevImg = None
 
 termcriteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03)
 
-jumpcnt = 0
+jumpcnt = 1        
 cnt = 0
 prevPt = None
 
@@ -57,6 +57,7 @@ while cap.isOpened():
     else:
 
         nextImg = gray
+        prevPt = cv2.goodFeaturesToTrack(prevImg, 200, 0.01, 10)
 
         nextPt, status, err = cv2.calcOpticalFlowPyrLK(prevImg, nextImg, \
                                                        prevPt, None, criteria=termcriteria)
@@ -72,15 +73,16 @@ while cap.isOpened():
                 Threshold = np.mean(np.array(buffer))
 
             vec = np.mean(vec, axis=0)
+              
 
-            if vec[1] > Threshold+0.75:
-                #print(vec[1])
+            if vec[1] > (Threshold+0.3 ) * (1/jumpcnt):
+                #print(vec[1])  
                 jumpcnt += 1
             else:
-                jumpcnt = np.clip(jumpcnt - 1, 0, 5)
-            if jumpcnt > 2:
-                # print('jump')
-                jumpcnt = 0
+                jumpcnt = np.clip(jumpcnt - 1, 1, 5)
+            if jumpcnt > 3:
+                print('jump')
+                jumpcnt = 1
                 press_space()
 
             '''
@@ -99,10 +101,9 @@ while cap.isOpened():
             prevPt = nextMv.reshape(-1, 1, 2)
         except:
             pass
-
+   
     if cnt % 20 == 0:
-        prevPt = cv2.goodFeaturesToTrack(prevImg, 200, 0.01, 10)
-        cv2.imshow('', prevImg)
+        cv2.imshow('', prevImg)    
         cnt = 0
     key = cv2.waitKey(delay)
     if key == 27:  # Esc:
