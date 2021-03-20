@@ -34,7 +34,22 @@ jumpcnt = 1
 cnt = 0
 prevPt = None
 
-while cap.isOpened():
+for i in range (200):
+    ret, frame = cap.read()
+    scale_percent = 50  # percent of original size
+    width = int(frame.shape[1] * scale_percent / 100)
+    height = int(frame.shape[0] * scale_percent / 100)
+    dim = (width, height)
+    
+    # resize image
+    frame = cv2.resize(frame, dim, interpolation=cv2.INTER_AREA)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    cv2.imshow('', gray)
+    print(i)
+    key = cv2.waitKey(delay)
+cv2.destroyAllWindows()
+
+while True:
     ret, frame = cap.read()
 
     scale_percent = 10  # percent of original size
@@ -102,9 +117,6 @@ while cap.isOpened():
         except:
             pass
    
-    if cnt % 20 == 0:
-        cv2.imshow('', prevImg)    
-        cnt = 0
     key = cv2.waitKey(delay)
     if key == 27:  # Esc:
         break
