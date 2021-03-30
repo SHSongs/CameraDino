@@ -3,7 +3,8 @@
 ## OpticalFlow로 Dino Game 하기
 
 #### Raspberry Pi 4
-<img src="1Play.gif" height="400">  
+<img src="1Play.gif" height="300">  
+<img src="2Play.gif" height="300">  
 
 #### Intel laptop
 <img src="Demo.png" height="400">  
