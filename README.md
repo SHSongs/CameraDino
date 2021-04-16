@@ -10,7 +10,7 @@
 <img src="Demo.png" height="400">  
 <img src="Demo.gif" height="400">  
 
-
+## [[Blog]Algorithms](https://shsongs.github.io/CameraDino/)
 ## How To Play
 1. Chrome Address bar  
 ```
