@@ -4,7 +4,7 @@
 This is a JUMP detection using optical flow.
 
 ## [[Blog]Algorithms](https://shsongs.github.io/CameraDino/)
-Algorithm Summary  
+Summary  
 Calculate the momentum using the optical flow. Momentum above the threshold, it is judged to be a jump.  
 Threshold is the average of the previous 50 frame momentum.  
 
